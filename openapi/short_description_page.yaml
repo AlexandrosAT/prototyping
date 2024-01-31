@@ -1,0 +1,43 @@
+openapi: 3.0.0
+info:
+  title: My API
+  version: 1.0.0
+paths:
+  /v1/get-content:
+    get:
+      summary: Get short description from Wikipedia
+      description: Retrieves content based on the provided query.
+      parameters:
+        - name: query
+          in: query
+          description: The query string to retrieve content.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                short_description: "Canadian computer scientist"
+        "404":
+          description: Content not found
+          content:
+            application/json:
+              example:
+                not_found_1:
+                  value:
+                    error: "Queried content not found in Wikipedia"
+                not_found_2:
+                  value:
+                    error: "Query redirected to: ['Piaggio Aerospace']"
+                not_found_3:
+                  value:
+                    error: "No short description found for 'Abcsd'"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                error: "Internal Server Error"

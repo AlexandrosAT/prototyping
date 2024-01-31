@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Request Page</title>
+  </head>
+  <body>
+    <h2>Get a short description for anything you like!</h2>
+    <input type="text" id="queryInput" placeholder="Enter your query" />
+    <button onclick="performQuery()">Perform Query</button>
+    <div id="result"></div>
+
+    <script>
+      function performQuery() {
+        // Get the value from the input box
+        var query = document.getElementById("queryInput").value;
+        const local = "http://127.0.0.1:5000/v1/get-content?query=";
+        // Make the API request
+        fetch(local + encodeURIComponent(query))
+          .then((response) => response.json())
+          // Display the result in the 'result' div
+          .then((data) => {
+            if (data.error !== undefined) {
+              document.getElementById("result").innerHTML =
+                "Error: " + data.error;
+            } else {
+              document.getElementById("result").innerHTML =
+                "Short description: " + data.short_description;
+            }
+          })
+          .catch((error) => {
+            // Handle errors
+            document.getElementById("result").innerHTML =
+              "Error: " + error.message;
+          });
+      }
+    </script>
+  </body>
+</html>
